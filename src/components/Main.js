@@ -2,12 +2,13 @@ import { useEffect, useState } from "react"
 import { Route, Switch } from "react-router-dom"
 import Index from "../pages/Index"
 import Show from "../pages/Show"
+import About from "../pages/About"
 
 function Main(props) {
   const [people, setPeople] = useState(null)
 
-  const URL = "http://localhost:3001/people/"
-
+  const URL = "https://heart-disease-predictor-be1.herokuapp.com/people/"
+// retreive data 
   const getPeople = async () => {
     const response = await fetch(URL)
     const data = await response.json()
@@ -30,14 +31,17 @@ function Main(props) {
   useEffect(() => getPeople(), [])
 
   return (
-    <main>
-      <Switch>
-        <Route exact path="/">
-          <Index people={people} createPeople={createPeople} />
-        </Route>
-        <Route path="/people/:id" render={(rp) => <Show {...rp} />} />
-      </Switch>
-    </main>
+    <div>
+      <main>
+        <Switch>
+          <Route exact path="/">
+            <Index people={people} createPeople={createPeople} />
+          </Route>
+          <Route path="/people/:id" render={(rp) => <Show {...rp} />} />
+          <Route path="/about" component={About} />
+        </Switch>
+      </main>
+    </div>
   )
 }
 

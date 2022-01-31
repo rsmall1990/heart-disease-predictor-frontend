@@ -24,15 +24,9 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.About p {
+  margin: 2rem;
+  padding-left: 20rem;
+  padding-right: 20rem;
+  text-align: left;
 }
