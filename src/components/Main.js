@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom"
 import Index from "../pages/Index"
 import Show from "../pages/Show"
 import About from "../pages/About"
+import Create from "../pages/Create"
 
 function Main(props) {
   const [people, setPeople] = useState(null)
@@ -70,6 +71,7 @@ function Main(props) {
             />
           )}
         />
+          <Route path="/new" component={Create} />
           <Route path="/about" component={About} />
         </Switch>
       </main>
