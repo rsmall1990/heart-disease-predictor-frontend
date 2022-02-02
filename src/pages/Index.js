@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { Link } from "react-router-dom"
 import "../index.css"
 
@@ -6,24 +5,29 @@ function Index(props) {
   
   const loaded = () => {
     return props.people.map((person) => (
-      <div key={person._id} className="person">
-        <Link to={`/people/${person._id}`}>
-          <h1>{person.name}</h1>
-        </Link>
-        <h3>{person.age}</h3>
-        <h3>{person.sex}</h3>
-        <h3>{person.cp}</h3>
-        <h3>{person.trestbps}</h3>
-        <h3>{person.chol}</h3>
-        <h3>{person.fbs}</h3>
-        <h3>{person.restecg}</h3>
-        <h3>{person.thalach}</h3>
-        <h3>{person.exang}</h3>
-        <h3>{person.oldpeak}</h3>
-        <h3>{person.slope}</h3>
-        <h3>{person.ca}</h3>
-        <h3>{person.thal}</h3>
-      </div>
+      <tr>
+          <div key={person._id} className="person">
+          <td>
+          <Link to={`/people/${person._id}`}>
+            <h1>{person.name}</h1>
+          </Link>
+          </td>
+          <td>{person.age}</td>
+          <td>{person.sex}</td>
+          <td>{person.cp}</td>
+          <td>{person.trestbps}</td>
+          <td>{person.chol}</td>
+          <td>{person.fbs}</td>
+          <td>{person.restecg}</td>
+          <td>{person.thalach}</td>
+          <td>{person.exang}</td>
+          <td>{person.oldpeak}</td>
+          <td>{person.slope}</td>
+          <td>{person.ca}</td>
+          <td>{person.thal}</td>
+          <td>{person.probability}</td>
+        </div>
+      </tr>
     ))
   }
 
@@ -32,9 +36,34 @@ function Index(props) {
   }
 
   return (
-    <section>
-      {props.people ? loaded() : loading()}
-    </section>
+    <div className="peopleTable">
+      <table>
+        <th>
+          <tr>
+            <td>Name</td>
+            <td>age</td>
+            <td>sex</td>
+            <td>cp</td>
+            <td>trestbps</td>
+            <td>chol</td>
+            <td>fbs</td>
+            <td>restecg</td>
+            <td>thalach</td>
+            <td>exang</td>
+            <td>oldpeak</td>
+            <td>slope</td>
+            <td>ca</td>
+            <td>thal</td>
+            <td>Probability</td>
+          </tr>
+        </th>
+        <tbody>
+
+              {props.people ? loaded() : loading()}
+
+        </tbody>
+      </table>      
+    </div>
   )
 }
 

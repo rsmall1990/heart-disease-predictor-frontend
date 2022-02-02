@@ -1,9 +1,16 @@
 import { useState } from "react"
-import "../index.css"
+import { useHistory } from "react-router-dom"
+import * as tf from '@tensorflow/tfjs';
+
+const MODEL_URL = "./heart-model.json";
+const model = await tf.loadLayersModel(MODEL_URL);
+console.log("model loaded");
 
 function Create(props) {
+  const history = useHistory()
+  
   // state to hold formData
-  const [newForm, setNewForm] = useState({
+  const [state, setState] = useState({
     name: "",
     age: "",
     sex: "",
@@ -18,21 +25,30 @@ function Create(props) {
     slope: "",
     ca: "",
     thal: "",
+    probability: "0.5",
   })
+
 
   // handleChange function for form
   const handleChange = (event) => {
-    setNewForm((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }))
-  }
+		// console.log("state handlechange", state)
+    setState( prevState => ({
+			...prevState,
+			[event.target.name]: event.target.value
+		}));
+	};
 
   // handle submit function for form
   const handleSubmit = (event) => {
-    event.preventDefault()
-    props.createPeople(newForm)
-    setNewForm({
+    // console.log("state",state);
+    state.probability= Math.random()
+    // setState( prevState => ({
+		// 	...prevState,
+		// }));
+    // console.log("state2",state);
+		event.preventDefault();
+		props.createPeople(state);
+    setState({
         name: "",
         age: "",
         sex: "",
@@ -47,202 +63,192 @@ function Create(props) {
         slope: "",
         ca: "",
         thal: "",
-    })
-  }
+        probability: ""
+    });
+    history.push("/");
+  };
 
   return (
     <section>
       <form onSubmit={handleSubmit}>
-        <div class="py-3 text-center">
-          <h2
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Tooltip on top"
-          >
-            Heart Disease Detection
-          </h2>
-          <p class="lead">Please fill the form below.</p>
-        </div>
+          <h2>Heart Disease Detection</h2>
+          <p className="lead">Please fill the form below:</p>
 
-        <div class="row g-3">
-          <div class="col-lg-12">
-            <form id="form1">
-              <div class="row g-3">
-
-                <div class="col-sm-6">
-                  <label class="form-label">Name</label>
+        
+                  <label className="form-label">Name</label>
                   <input
                     type="text"
-                    class="form-control"
-                    id="Name"
+                    name="name"
+                    value={state.name}
                     placeholder="e.g. Bob"
-                    value=""
                     required
                     onChange={handleChange}
                   />
-                </div>
 
-                <div class="col-sm-6">
-                  <label class="form-label">Age</label>
+                <div className="col-sm-6">
+                  <label className="form-label">Age</label>
                   <input
                     type="text"
-                    class="form-control"
-                    id="age"
+                    name="age"
+                    value={state.age}
                     placeholder="years"
-                    value=""
                     required
                     onChange={handleChange}
                   />
                 </div>
 
-                <div class="col-sm-6">
-                  <label class="form-label">Sex</label>
-                  <select class="form-select" id="sex" required>
-                    <option value="1" selected>Male</option>
-                    <option value="0">Female</option>
-                  </select>
-                </div>
-
-                <div class="col-sm-12">
-                  <label class="form-label">Chest pain type</label>
-                  <select class="form-select" id="cp" required onChange={handleChange}>
-                    <option value="0">typical angina</option>
-                    <option value="1">atypical angina</option>
-                    <option value="2">non-anginal pain</option>
-                    <option value="1">asymptomatic</option>
-                  </select>
-                </div>
-
-                <div class="col-sm-6">
-                  <label class="form-label">Resting blood pressure</label>
+                <div className="col-sm-6">
+                  <label className="form-label">Sex</label>
                   <input
                     type="text"
-                    class="form-control"
-                    id="trestbps"
-                    placeholder="in mm Hg"
+                    name="sex"
+                    value={state.sex}
+                    placeholder="1 for Male, 0 for Female"
+                    required
                     onChange={handleChange}
                   />
                 </div>
 
-                <div class="col-sm-6">
-                  <label class="form-label">Serum cholestoral</label>
+                <div className="col-sm-12">
+                  <label className="form-label">Chest pain type</label>
                   <input
                     type="text"
-                    class="form-control"
-                    id="chol"
+                    name="cp"
+                    value={state.cp}
+                    placeholder="0-3"
+                    required
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="col-sm-6">
+                  <label className="form-label">Resting blood pressure</label>
+                  <input
+                    type="text"
+                    name="trestbps"
+                    value={state.trestbps}
+                    placeholder="e.g. 120"
+                    required
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="col-sm-6">
+                  <label className="form-label">Serum cholestoral</label>
+                  <input
+                    type="text"
+                    name="chol"
+                    value={state.chol}
                     placeholder="in mg/dl"
                     onChange={handleChange}
                   />
                 </div>
 
-                <div class="col-sm-6">
-                  <label class="form-label"
+                <div className="col-sm-6">
+                  <label className="form-label"
                     >Fasting blood sugar {'>'} 120 mg/dl</label
                   >
-                  <select class="form-select" id="fbs" required onChange={handleChange}>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                  </select>
-                </div>
-
-                <div class="col-sm-6">
-                  <label class="form-label">Resting ECG results</label>
-                  <select class="form-select" id="restecg" required onChange={handleChange}>
-                    <option value="0">normal</option>
-                    <option value="1">
-                      having ST-T wave abnormality (T wave inversions and/or ST
-                      elevation or depression of {'>'} 0.05 mV)
-                    </option>
-                    <option value="2" onChange={handleChange}>
-                      showing probable or definite left ventricular hypertrophy
-                      by Estes' criteria
-                    </option>
-                  </select>
-                </div>
-
-                <div class="col-sm-6">
-                  <label class="form-label">Maximum heart rate achieved</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    id="thalach"
-                    placeholder="200" 
+                  <input
+                    type="text"
+                    name="fbs"
+                    value={state.fbs}
+                    placeholder="1 yes, 0 no"
+                    required
                     onChange={handleChange}
                   />
                 </div>
 
-                <div class="col-sm-6">
-                  <label class="form-label">Exercise induced angina</label>
-                  <select class="form-select" id="exang" required onChange={handleChange}>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                  </select>
+                <div className="col-sm-6">
+                  <label className="form-label">Resting ECG results</label>
+                  <input
+                    type="text"
+                    name="restecg"
+                    value={state.restecg}
+                    placeholder="0-2"
+                    required
+                    onChange={handleChange}
+                  />
                 </div>
 
-                <div class="col-md-6">
-                  <label class="form-label"
-                    >ST depression induced by exercise relative to rest</label
-                  >
-                  <input type="text" class="form-control" id="oldpeak" onChange={handleChange}/>
+                <div className="col-sm-6">
+                  <label className="form-label">Maximum heart rate achieved</label>
+                  <input 
+                    type="text"  
+                    name="thalach"
+                    value={state.thalach}
+                    placeholder="e.g. 200" 
+                    onChange={handleChange}
+                  />
                 </div>
 
-                <div class="col-md-6">
-                  <label class="form-label"
-                    >Slope - the slope of the peak exercise ST segment</label
-                  >
-                  <select class="form-select" id="slope" required onChange={handleChange}>
-                    <option value="0">upsloping</option>
-                    <option value="1">flat</option>
-                    <option value="2">downsloping</option>
-                  </select>
+                <div className="col-sm-6">
+                  <label className="form-label">Exercise induced angina</label>
+                  <input
+                    type="text"
+                    name="exang"
+                    value={state.exang}
+                    placeholder="1 yes, 0 no"
+                    required
+                    onChange={handleChange}
+                  />
                 </div>
 
-                <div class="col-sm-6">
-                  <label class="form-label"
-                    >Number of major vessels (0-3) colored by flourosopy</label
-                  >
-                  <select class="form-select" id="ca" required onChange={handleChange}>
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                  </select>
+                <div className="col-md-6">
+                  <label className="form-label">
+                    ST depression induced by exercise relative to rest
+                  </label>
+                  <input 
+                    type="text"  
+                    name="oldpeak"
+                    value={state.oldpeak}
+                    placeholder="0 or 1"
+                    required
+                    onChange={handleChange}
+                  />
                 </div>
 
-                <div class="col-sm-6">
-                  <label class="form-label">Thalium (thal)</label>
-                  <select class="form-select" id="thal" required onChange={handleChange}>
-                    <option value="0">normal</option>
-                    <option value="1">fixed defect</option>
-                    <option value="2">reversable defect</option>
-                  </select>
+                <div className="col-md-6">
+                  <label className="form-label">
+                    Slope - the slope of the peak exercise ST segment
+                  </label>
+                  <input
+                    type="text"
+                    name="slope"
+                    value={state.slope}
+                    placeholder="0, 1, 2"
+                    required
+                    onChange={handleChange}
+                  />
                 </div>
-              </div>
 
-              <hr class="my-4" />
-
-              <button
-                class="w-100 btn btn-primary btn-lg"
-                onclick={handleSubmit}
-                type="submit"
-              >
-                Analyze <i class="bi bi-search"></i>
-              </button>
-            </form>
-
-            <div class="row" id="rslt">
-              <div class="col-sm-12 py-4">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="card-text" id="rslt-text"></div>
-                  </div>
+                <div className="col-sm-6">
+                  <label className="form-label">
+                    Number of major vessels (0-3) colored by flourosopy
+                  </label>
+                  <input
+                    type="text"
+                    name="ca"
+                    value={state.ca}
+                    placeholder="0-3"
+                    required
+                    onChange={handleChange}
+                  />
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-      </form>
+                <div className="col-sm-6">
+                  <label className="form-label">Thalium (thal)</label>
+                  <input
+                    type="text"
+                    name="thal"
+                    value={state.thal}
+                    placeholder="0-2"
+                    required
+                    onChange={handleChange}
+                  />
+                </div>
+
+            <input type="submit" value="Add and Analyze" />
+        </form>
     </section>
   )
 }

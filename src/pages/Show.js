@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 function Show(props) {
   const id = props.match.params.id;
   const people = props.people;
@@ -44,7 +45,7 @@ function Show(props) {
       
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="age"
                     placeholder="years"
                     value=""
@@ -52,12 +53,12 @@ function Show(props) {
                     onChange={handleChange}
                   />
 
-                  <select class="form-select" id="sex" required>
+                  <select className="form-select" id="sex" required onChange={handleChange}>
                     <option value="1" selected>Male</option>
                     <option value="0">Female</option>
                   </select>
 
-                  <select class="form-select" id="cp" required onChange={handleChange}>
+                  <select className="form-select" id="cp" required onChange={handleChange}>
                     <option value="0">typical angina</option>
                     <option value="1">atypical angina</option>
                     <option value="2">non-anginal pain</option>
@@ -66,7 +67,7 @@ function Show(props) {
 
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="trestbps"
                     placeholder="in mm Hg"
                     onChange={handleChange}
@@ -74,18 +75,18 @@ function Show(props) {
 
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="chol"
                     placeholder="in mg/dl"
                     onChange={handleChange}
                   />
 
-                  <select class="form-select" id="fbs" required onChange={handleChange}>
+                  <select className="form-select" id="fbs" required onChange={handleChange}>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                   </select>
 
-                  <select class="form-select" id="restecg" required onChange={handleChange}>
+                  <select className="form-select" id="restecg" required onChange={handleChange}>
                     <option value="0">normal</option>
                     <option value="1">
                       having ST-T wave abnormality (T wave inversions and/or ST
@@ -97,29 +98,29 @@ function Show(props) {
                     </option>
                   </select>
 
-                  <input type="text" class="form-control" id="thalach" onChange={handleChange}/>
+                  <input type="text" className="form-control" id="thalach" onChange={handleChange}/>
 
-                  <select class="form-select" id="exang" required onChange={handleChange}>
+                  <select className="form-select" id="exang" required onChange={handleChange}>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                   </select>
 
-                  <input type="text" class="form-control" id="oldpeak" onChange={handleChange}/>
+                  <input type="text" className="form-control" id="oldpeak" onChange={handleChange}/>
                 
-                  <select class="form-select" id="slope" required onChange={handleChange}>
+                  <select className="form-select" id="slope" required onChange={handleChange}>
                     <option value="0">upsloping</option>
                     <option value="1">flat</option>
                     <option value="2">downsloping</option>
                   </select>
                 
-                  <select class="form-select" id="ca" required onChange={handleChange}>
+                  <select className="form-select" id="ca" required onChange={handleChange}>
                     <option value="0">0</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                   </select>
 
-                  <select class="form-select" id="thal" required onChange={handleChange}>
+                  <select className="form-select" id="thal" required onChange={handleChange}>
                     <option value="0">normal</option>
                     <option value="1">fixed defect</option>
                     <option value="2">reversable defect</option>

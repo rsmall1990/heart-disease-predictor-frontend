@@ -58,7 +58,7 @@ function Main(props) {
       <main>
         <Switch>
           <Route exact path="/">
-            <Index people={people} createPeople={createPeople} />
+            <Index people={people} />
           </Route>
           <Route
           path="/people/:id"
@@ -71,8 +71,10 @@ function Main(props) {
             />
           )}
         />
-          <Route path="/new" component={Create} />
-          <Route path="/about" component={About} />
+          <Route exact path="/new">
+            <Create createPeople={createPeople} />  
+          </Route> 
+          <Route people={people} path="/about" component={About} />
         </Switch>
       </main>
     </div>
