@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { useHistory } from "react-router-dom"
-import * as tf from '@tensorflow/tfjs';
+// import * as tf from '@tensorflow/tfjs';
 
-const MODEL_URL = "./heart-model.json";
-const model = await tf.loadLayersModel(MODEL_URL);
-console.log("model loaded");
+// const MODEL_URL = "./heart-model.json";
+// const model = await tf.loadLayersModel(MODEL_URL);
+// console.log("model loaded");
 
 function Create(props) {
   const history = useHistory()
